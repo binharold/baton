@@ -2,7 +2,9 @@
 
 English | [Türkçe](README.tr.md)
 
-# AI Panel
+# Baton
+
+The app still uses the name “AI Panel” internally and on disk, including the `~/.ai-panel` directory and `ai-panel/...` Git branches.
 
 **Run all your AI coding accounts as one team.**
 A manager splits the job, workers run in parallel on their own copies of your project, and tests run automatically.
@@ -15,7 +17,7 @@ All that's left for you is to review the result and say "merge".
 
 Claude Code · Codex · Antigravity · Gemini CLI
 
-<img src="docs/img/en/panel.png" alt="AI Panel: the manager split a job into three tasks and all three workers passed the automatic tests" width="100%">
+<img src="docs/img/en/panel.png" alt="Baton: the manager split a job into three tasks and all three workers passed the automatic tests" width="100%">
 
 </div>
 
@@ -30,7 +32,7 @@ If you pay for more than one AI subscription, you probably know these problems:
 - Two agents in the same folder overwrite each other's changes.
 - An agent says "done", and you still have to check whether the tests really pass.
 
-AI Panel manages all your accounts as **one team**. You describe what you want. The manager breaks the job into parts and hands them to the least-loaded workers. Each worker runs in its **own git copy** of the project. At the end the tests run, the manager checks the results, and you get a short report.
+Baton manages all your accounts as **one team**. You describe what you want. The manager breaks the job into parts and hands them to the least-loaded workers. Each worker runs in its **own git copy** of the project. At the end the tests run, the manager checks the results, and you get a short report.
 
 ## Highlights
 
@@ -45,7 +47,7 @@ AI Panel manages all your accounts as **one team**. You describe what you want. 
 | **Smart helpers** | 35 ready-made prompts, an **Improve** button that sharpens what you typed (it reads the last answer in the chat, marks at most two open questions with defaults, can be cancelled and undone), "next step" suggestions after a job, and a project scanner that detects the stack and test command. |
 | **Folderless (cloud) projects** | Tick **Work without a folder (cloud)** and the panel opens an empty workspace for remote work. See below. |
 | **Token usage** | Every task, manager round and job shows the tokens it used; project totals sit in the top bar. See [Token usage](#token-usage). |
-| **Start new chat** | When a chat gets long, a tip offers to start a new one that begins with a short summary. The manager's history is also leaner (see `docs/token-gecmis.md`). |
+| **Start new chat** | When a chat gets long, a tip offers to start a new one that begins with a short summary. The manager's history is also leaner. |
 | **Persistent queue** | Queued messages survive a panel restart. They wait until you press **Resume queue** (or send a new message). |
 | **One-click restart** | An "Update ready." banner and a Settings button restart the panel; the page reloads itself. |
 | **Reasoning effort per account** | Pick how hard each account thinks, from Low to Max. |
@@ -201,7 +203,7 @@ Queued messages are saved, so they are not lost when the panel restarts. They do
 
 ### Start new chat
 
-When a chat grows long, a small tip appears at the top (you can dismiss it). **Start new chat** clears the chat and makes a short summary of the previous one the first message. Unreviewed work branches are not deleted. The history inside the manager prompt is leaner too: repeated messages and status texts such as "Stopped." are left out and older rounds are shortened (see `docs/token-gecmis.md`).
+When a chat grows long, a small tip appears at the top (you can dismiss it). **Start new chat** clears the chat and makes a short summary of the previous one the first message. Unreviewed work branches are not deleted. The history inside the manager prompt is leaner too: repeated messages and status texts such as "Stopped." are left out and older rounds are shortened.
 
 ### Token usage
 
@@ -300,4 +302,4 @@ LIMIT_TEST=1 npm test
 
 ---
 
-<sub>AI Panel is an independent tool and is not affiliated with Anthropic, OpenAI or Google. It uses each service's own official CLI and your own account.</sub>
+<sub>Baton is an independent tool and is not affiliated with Anthropic, OpenAI or Google. It uses each service's own official CLI and your own account.</sub>
