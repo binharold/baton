@@ -1,0 +1,37 @@
+/* ============================================================
+   Tasarim token'lari: olcekler (aralik, yaricap, yazi, yukselti,
+   hareket, odak). Renkler style.css ve themes.css icinde kalir.
+   Bu dosya style.css'ten ONCE yuklenir; temalar bunlari ezebilir.
+   ============================================================ */
+:root {
+  color-scheme: light dark;
+  /* Aralik: 4px taban, 8px ritim */
+  --sp-1: 4px; --sp-2: 8px; --sp-3: 12px; --sp-4: 16px; --sp-5: 20px; --sp-6: 24px; --sp-8: 32px; --sp-10: 40px;
+  /* Kose yaricapi */
+  --r-xs: 4px; --r-sm: 6px; --r-md: 8px; --r-lg: 12px; --r-xl: 16px; --r-pill: 999px;
+  /* Yazi olcegi (sistem yazi tipi; ek font yuklenmez) */
+  --fs-2xs: 11px; --fs-xs: 12px; --fs-sm: 13px; --fs-md: 14px; --fs-lg: 16px; --fs-xl: 18px; --fs-2xl: 22px;
+  --lh-tight: 1.3; --lh-base: 1.5; --lh-prose: 1.62;
+  --fw-regular: 400; --fw-medium: 500; --fw-semibold: 600; --fw-bold: 700;
+  --font-ui: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+  /* Yukselti (elevation) */
+  --elev-0: none;
+  --elev-1: 0 1px 2px rgba(0,0,0,.05), 0 2px 8px rgba(0,0,0,.04);
+  --elev-2: 0 0 0 1px rgba(0,0,0,.06), 0 8px 24px rgba(0,0,0,.12);
+  --elev-3: 0 0 0 1px rgba(0,0,0,.08), 0 16px 48px rgba(0,0,0,.18);
+  --scrim: rgba(0,0,0,.32);
+  --on-bad: #fff;
+  /* Hareket */
+  --dur-fast: .12s; --dur-base: .2s; --dur-slow: .3s; --ease: cubic-bezier(.2,.7,.2,1);
+  /* Odak halkasi */
+  --ring-w: 2px; --ring-offset: 2px; --ring-soft: 3px;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --elev-1: 0 0 0 1px rgba(255,255,255,.05), 0 4px 12px rgba(0,0,0,.28);
+    --elev-2: 0 0 0 1px rgba(255,255,255,.10), 0 10px 32px rgba(0,0,0,.5);
+    --elev-3: 0 0 0 1px rgba(255,255,255,.12), 0 18px 56px rgba(0,0,0,.6);
+    --scrim: rgba(0,0,0,.55);
+    --on-bad: #1a0505;
+  }
+}

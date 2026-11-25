@@ -1,0 +1,276 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI Panel</title>
+<meta name="aip-token" content="__AIP_TOKEN__">
+<link rel="stylesheet" href="/tokens.css">
+<link rel="stylesheet" href="/style.css">
+<link rel="stylesheet" href="/themes.css">
+<script src="/theme.js"></script>
+<script src="/i18n.js"></script>
+</head>
+<body>
+<a class="skip-link" href="#input" data-i18n="skip.link">Ana içeriğe geç</a>
+<aside aria-label="Kenar çubuğu" data-i18n-aria="side.aria">
+  <div class="brand">
+    <div class="logo" aria-hidden="true"><svg viewBox="0 0 16 16"><circle cx="8" cy="4" r="1.6"/><circle cx="3.5" cy="12" r="1.6"/><circle cx="12.5" cy="12" r="1.6"/><path d="M8 5.6v2.4M8 8L4.4 10.6M8 8l3.6 2.6"/></svg></div>
+    <h1>AI Panel</h1>
+    <span class="conn" id="live" role="status" data-i18n="conn.off">bağlı değil</span>
+  </div>
+  <div class="side-scroll">
+    <div id="banner"></div>
+    <div class="sect"><span data-i18n="proj.title">Projeler</span><button id="newProject" title="Yeni proje" aria-label="Yeni proje" data-i18n-title="proj.new" data-i18n-aria="proj.newAria"><svg class="i" viewBox="0 0 16 16"><path d="M8 3v10M3 8h10"/></svg></button></div>
+    <nav class="list" id="projects" aria-label="Projeler" data-i18n-aria="proj.title"></nav>
+    <div class="sect" data-i18n="mgr.title">Yönetici</div>
+    <div id="mgrCard"></div>
+    <div class="sect"><span data-i18n="team.title">Ekip</span><span id="teamCount"></span></div>
+    <div class="list" id="accounts"></div>
+  </div>
+  <div class="side-foot"><button class="add-btn" id="addOpen"><svg class="i" viewBox="0 0 16 16"><path d="M8 3v10M3 8h10"/></svg><span data-i18n="acct.add">Hesap ekle</span></button></div>
+</aside>
+
+<main>
+  <div class="toolbar">
+    <button class="t1" id="projTitle" title="Proje ayarları" data-i18n-title="tb.projSettings"></button><span id="projTok"></span>
+    <button class="folder" id="folderBtn" title="Proje klasörü" data-i18n-title="tb.folder"></button>
+    <span class="grow"></span>
+    <nav class="tb-nav" aria-label="Araçlar" data-i18n-aria="tb.tools">
+      <button class="icon-btn lab" id="inboxBtn" aria-haspopup="dialog" aria-expanded="false" title="Bekleyenler: senden karar ya da işlem bekleyen her şey" aria-label="Bekleyenler" data-i18n-title="tb.inboxTitle" data-i18n-aria="tb.inbox"><svg class="i" viewBox="0 0 16 16"><path d="M2.5 9.5l1.8-5.2a1 1 0 01.9-.8h5.6a1 1 0 01.9.8l1.8 5.2v3a1 1 0 01-1 1h-9a1 1 0 01-1-1z"/><path d="M2.5 9.5h3l1 1.5h3l1-1.5h3"/></svg><span class="lbl" data-i18n="tb.inbox">Bekleyenler</span><i class="badge" id="inboxCount"></i></button>
+      <button class="icon-btn lab" id="schedBtn" title="Zamanlanmış görevler: belirli saatte otomatik iş" aria-label="Zamanlanmış görevler" data-i18n-title="tb.schedTitle" data-i18n-aria="tb.schedAria"><svg class="i" viewBox="0 0 16 16"><circle cx="8" cy="8.5" r="5.5"/><path d="M8 5.5v3l2 1.5M6 1.8h4"/></svg><span class="lbl" data-i18n="tb.sched">Zamanla</span><i class="badge" id="schedCount"></i></button>
+      <button class="icon-btn lab" id="statBtn" title="İstatistik: işler, hesaplar, başarı oranı" aria-label="İstatistik" data-i18n-title="tb.statsTitle" data-i18n-aria="tb.stats"><svg class="i" viewBox="0 0 16 16"><path d="M2.5 13.5h11M4.5 11V8M8 11V4.5M11.5 11V6.5"/></svg><span class="lbl" data-i18n="tb.stats">İstatistik</span></button>
+      <span class="tb-sep"></span>
+      <button class="icon-btn" id="paletteBtn" title="Ara ve komut çalıştır (⌘K)" aria-label="Komut paleti" data-i18n-title="tb.paletteTitle" data-i18n-aria="tb.palette"><svg class="i" viewBox="0 0 16 16"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5L14 14"/></svg></button>
+      <button class="icon-btn" id="projMenuBtn" aria-haspopup="menu" aria-expanded="false" title="Proje menüsü: ayarlar, klasör, yeni proje" aria-label="Proje menüsü" data-i18n-title="tb.projMenuTitle" data-i18n-aria="tb.projMenu"><svg class="i" viewBox="0 0 16 16"><circle cx="3.5" cy="8" r=".7"/><circle cx="8" cy="8" r=".7"/><circle cx="12.5" cy="8" r=".7"/></svg></button>
+      <button class="icon-btn" id="setOpen" title="Ayarlar: ekip, yetki, görünüm (⌘,)" aria-label="Ayarlar" data-i18n-title="tb.settingsTitle" data-i18n-aria="tb.settings"><svg class="i" viewBox="0 0 16 16"><path d="M2.5 4.5h6M11.5 4.5h2M2.5 11.5h2M7.5 11.5h6"/><circle cx="10" cy="4.5" r="1.5"/><circle cx="6" cy="11.5" r="1.5"/></svg></button>
+      <button class="icon-btn" id="helpBtn" title="Yardım: tur, kısayollar, nasıl çalışır" aria-label="Yardım" data-i18n-title="tb.helpTitle" data-i18n-aria="tb.help"><svg class="i" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6"/><path d="M6.3 6.3a1.8 1.8 0 113 1.3c-.7.4-1.3.8-1.3 1.6M8 11.3h.01"/></svg></button>
+    </nav>
+  </div>
+  <div class="attn" id="attn" aria-live="polite"></div>
+  <div class="scroll" id="scroll"><div class="thread" id="msgs"></div></div>
+  <button class="to-bottom" id="toBottom" type="button" title="En alta in" aria-label="En alta in" data-i18n-title="scroll.bottom" data-i18n-aria="scroll.bottom"><svg class="i" viewBox="0 0 16 16"><path d="M8 3v10M3.5 8.5L8 13l4.5-4.5"/></svg></button>
+  <div class="composer-wrap">
+    <div class="composer">
+      <div class="enh-chip" id="enhChip" role="status" hidden><span></span><button class="chip-btn" data-enh="a"></button><button class="chip-btn" data-enh="b"></button><button class="chip-btn" data-enh="x" title="Kapat" aria-label="Kapat" data-i18n-title="close" data-i18n-aria="close">×</button></div>
+      <label class="sr" for="input" data-i18n="comp.label">Yöneticiye mesaj</label>
+      <textarea id="input" rows="1" placeholder="Yöneticiye bir iş ver…" data-i18n-placeholder="comp.phSplit"></textarea>
+      <div class="comp-bar">
+        <div class="seg" id="modeSeg" role="radiogroup" aria-label="Çalışma modu" data-i18n-aria="comp.modeAria">
+          <button data-mode="split" role="radio" title="Yönetici işi parçalara böler ve ekibe dağıtır" data-i18n="comp.split" data-i18n-title="comp.splitTitle">Böl</button>
+          <button data-mode="race" role="radio" title="Aynı görev herkese verilir, yönetici en iyisini seçer" data-i18n="comp.race" data-i18n-title="comp.raceTitle">Yarıştır</button>
+        </div>
+        <span class="to" id="compTo"></span>
+        <button class="chip-btn" id="enhBtn" title="Yazdığını yöneticinin daha iyi anlayacağı net bir göreve çevirir (küçük bir istek harcar)" data-i18n-title="comp.enhTitle"><svg class="i" viewBox="0 0 16 16" style="width:13px;height:13px"><path d="M3 13l7-7M10.5 2.5v2M12.5 4.5h-2M13.5 8.5v1.5M14.25 9.25h-1.5M6 2.5v1.5M6.75 3.25h-1.5"/></svg><span data-i18n="enh.label">İyileştir</span></button>
+        <button class="chip-btn" id="qBtn" style="display:none" title="Cevap bekleyen [köşeli] yerler. Tıkla ya da Tab ile sıradakini seç; yazınca yerine geçer." data-i18n-title="enh.qTitle"><span></span></button>
+        <button class="chip-btn" id="tplBtn" title="Hazır promptlar ( / )" data-i18n-title="comp.tplTitle"><svg class="i" viewBox="0 0 16 16" style="width:13px;height:13px"><path d="M8 2.2l1.5 3.2 3.4.4-2.5 2.4.7 3.4L8 9.9l-3.1 1.7.7-3.4-2.5-2.4 3.4-.4z"/></svg><span data-i18n="tb.lib">Promptlar</span></button>
+        <button class="send" id="send" title="Gönder (Enter)" aria-label="Gönder" data-i18n-title="comp.sendTitle" data-i18n-aria="comp.send"><svg viewBox="0 0 16 16"><path d="M8 13V3M3.5 7.5L8 3l4.5 4.5"/></svg></button>
+      </div>
+    </div>
+    <div class="hint-line" id="hintLine"></div>
+  </div>
+</main>
+
+<div class="menu" id="menu" role="menu"></div>
+<!-- Bekleyenler -->
+<div class="inbox" id="inbox" role="dialog" aria-label="Bekleyenler" data-i18n-aria="ib.title"><div class="ib-h"><b data-i18n="ib.title">Bekleyenler</b><span id="ibSub"></span></div><div class="ib-list" id="ibList"></div></div>
+<!-- Ilk acilis turu -->
+<div class="tour" id="tour" aria-live="polite"><div class="tour-hole" id="tourHole"></div><div class="tour-card" id="tourCard" role="dialog" aria-modal="true" aria-labelledby="tourTitle">
+  <div class="tour-step" id="tourStep"></div><h4 id="tourTitle"></h4><p id="tourText"></p>
+  <div class="tour-act"><button class="linkbtn" id="tourSkip" data-i18n="tour.skip">Turu geç</button><span class="grow"></span><button class="btn" id="tourPrev" data-i18n="tour.prev">Geri</button><button class="btn primary" id="tourNext" data-i18n="tour.next">İleri</button></div>
+</div></div>
+<!-- Yardim -->
+<div class="sheet-bg" id="helpSheet"><div class="sheet" role="dialog" aria-modal="true" aria-labelledby="helpTitle" style="max-width:620px">
+  <div class="lib-head" style="padding:0 0 6px"><div><h3 id="helpTitle" data-i18n="help.title">Yardım</h3><div class="lead" style="margin:0" data-i18n="help.lead">AI Panel ne yapar, düğmeler ne işe yarar.</div></div><button class="icon-btn" data-close aria-label="Kapat" data-i18n-aria="close"><svg class="i" viewBox="0 0 16 16"><path d="M4 4l8 8M12 4l-8 8"/></svg></button></div>
+  <div class="help-body">
+    <h4 data-i18n="help.how">Nasıl çalışır?</h4>
+    <ol class="help-steps">
+      <li data-i18n-html="help.s1.h"><b>Yazarsın.</b> Alttaki kutuya yapılacak işi yaz. Emin değilsen <i>İyileştir</i> metni netleştirir, <i>Promptlar</i> hazır tarifler sunar.</li>
+      <li data-i18n-html="help.s2.h"><b>Yönetici böler.</b> Yönetici hesap işi parçalara ayırır ve ekibe dağıtır. <i>Yarıştır</i> modunda herkes aynı işi çözer, yönetici en iyisini seçer.</li>
+      <li data-i18n-html="help.s3.h"><b>Ekip çalışır.</b> Her işçi projenin ayrı bir kopyasında (git dalı) çalışır; birbirini bozmazlar.</li>
+      <li data-i18n-html="help.s4.h"><b>Sen karar verirsin.</b> Sonuçlar <i>Bekleyenler</i>'e düşer. Farkı görür, beğendiğini ana dala alırsın. Beğenmezsen geri alırsın.</li>
+    </ol>
+    <h4 data-i18n="help.notif">Bildirimler</h4>
+    <p data-i18n-html="help.notif.h">Panel açık ve görünürken bildirim gelmez. Sadece biten ve hata veren işler bildirim gönderir; durdurduğun işler göndermez. Kısa sürede biten işler tek bildirimde toplanır. Ses varsayılan olarak kapalıdır, Ayarlar'dan açılır.</p>
+    <h4 data-i18n="help.btns">Üstteki düğmeler</h4>
+    <dl class="help-keys">
+      <dt data-i18n="help.cloud.k">Klasörsüz (bulut) proje</dt><dd data-i18n-html="help.cloud.h">Proje penceresinde <i>Klasörsüz çalış (bulut)</i>ni işaretlersen panel boş bir çalışma alanı açar; ssh, gh ya da web API gibi uzak işler için uygundur. Panel ev klasörünü asla kullanmaz.</dd>
+      <dt data-i18n="help.hist.k">Yeni sohbete geç</dt><dd data-i18n-html="help.hist.h">Sohbet uzayınca üstte çıkan öneri. Eski mesajlar yönetici isteminde token harcar; düğme sohbeti temizler, önceki sohbetin kısa özetini ilk mesaj yapar. İncelenmemiş iş dalları silinmez.</dd>
+      <dt data-i18n="help.queue.k">Kuyruğu sürdür</dt><dd data-i18n-html="help.queue.h">Panel yeniden başlayınca sıradaki mesajlar kendiliğinden başlamaz, bekler. İlk bekleyen mesajdaki <i>Kuyruğu sürdür</i> ya da yeni bir mesaj göndermek sırayı yeniden başlatır.</dd>
+      <dt data-i18n="help.merge.k">Yine de al · dosyalar · çakışma</dt><dd data-i18n-html="help.merge.h">Görev kartı değişen dosyaları ve satır sayısını gösterir. <i>Çakışmayı kontrol et</i> proje klasörüne dokunmadan dalın temiz girip girmediğine bakar. Testi kalan dal <i>Yine de al</i> ile, gerekçe yazılarak alınır; gerekçe kartta kalır.</dd>
+      <dt data-i18n="tb.inbox">Bekleyenler</dt><dd data-i18n-html="help.b.inbox.h">Senden karar bekleyen her şey: incelenecek değişiklikler, hatalar, giriş gereken hesaplar.</dd>
+      <dt data-i18n="tb.lib">Promptlar</dt><dd data-i18n-html="help.b.lib.h">35 hazır iş tarifi. Yazma kutusundaki Promptlar düğmesinden açılır; kutu boşken <kbd>/</kbd> da açar.</dd>
+      <dt data-i18n="enh.label">İyileştir</dt><dd data-i18n-html="help.b.enh.h">Yazdığını net bir göreve çevirir. Cevap bekleyen [soru? varsayılan: …] yerleri <i>N soru</i> düğmesi ya da <kbd>Tab</kbd> ile sırayla seçilir. Cevapsız soruyla gönderirsen bir kez uyarır. Sohbetin son cevabını görüp "bulunan hatalar" gibi atıfları somutlaştırır; metin netse dokunmaz. İyileştirilmişe tekrar basarsan istek gitmez. <i>Geri al</i> 30 sn durur.</dd>
+      <dt data-i18n="tb.sched">Zamanla</dt><dd data-i18n-html="help.b.sched.h">Bir işi her gece ya da belirli günlerde otomatik çalıştırır.</dd>
+      <dt data-i18n="tb.stats">İstatistik</dt><dd data-i18n-html="help.b.stats.h">Kaç iş yapıldı, hangi hesap ne kadar başarılı, limitler.</dd>
+      <dt data-i18n="help.b.search.k">Ara</dt><dd data-i18n-html="help.b.search.h">Ayarlar, İstatistik, Yardım, projeler ve promptlar tek yerden (<kbd>⌘K</kbd>).</dd>
+      <dt data-i18n="help.b.proj.k">⋯ Proje</dt><dd data-i18n-html="help.b.proj.h">Proje ayarları, klasör, yeni proje, sohbeti temizle.</dd>
+      <dt data-i18n="app.restart">Paneli yeniden başlat</dt><dd data-i18n="help.b.restart.h">Ayarlar'dan ya da "Güncelleme hazır" bandından. Çalışan iş bitince panel kendini yeniden açar.</dd>
+      <dt data-i18n="tb.settings">Ayarlar</dt><dd data-i18n-html="help.b.set.h">Ekip, yetki, görünüm (tema), yönetici kuralları (<kbd>⌘,</kbd>).</dd>
+      <dt data-i18n="tok.help.k">Token</dt><dd data-i18n-html="tok.help.h">Her görevin, her işin ve projenin harcadığı token. Başındaki ≈ tahmin demektir. İş kartını açınca yönetici ve hesap dağılımı görünür.</dd>
+      <dt data-i18n="help.copy.k">Kopyala · sekme</dt><dd data-i18n-html="help.copy.h">Rapor ve yönetici cevabının yanındaki <i>Kopyala</i> metni panoya alır; görev satırındaki dal adına tıklayınca tam dal adı kopyalanır. Sekme başlığı çalışan görev sayısını <code>(● N)</code>, karar bekleyen işi <code>(✓)</code> ile gösterir.</dd>
+    </dl>
+    <h4 data-i18n="help.keys">Kısayollar</h4>
+    <dl class="help-keys short">
+      <dt><kbd>Enter</kbd></dt><dd data-i18n="help.k.send">Gönder</dd><dt><kbd>Shift</kbd> <kbd>Enter</kbd></dt><dd data-i18n="help.k.nl">Yeni satır</dd>
+      <dt><kbd>/</kbd></dt><dd data-i18n="help.k.lib">Hazır promptlar</dd><dt><kbd>⌘K</kbd></dt><dd data-i18n="help.k.pal">Ara / komutlar</dd>
+      <dt><kbd>⌘,</kbd></dt><dd data-i18n="help.k.set">Ayarlar</dd><dt><kbd>Esc</kbd></dt><dd data-i18n="help.k.esc">Pencereyi kapat</dd>
+      <dt data-i18n="help.k.bottom">Yukarıdayken sağ alttaki ok</dt><dd data-i18n="help.k.bottomDo">Sohbetin en altına in</dd><dt><kbd>Enter</kbd> / <kbd data-i18n="help.k.space">Boşluk</kbd></dt><dd data-i18n="help.k.row">Görev satırını aç/kapat</dd><dt><kbd>Tab</kbd></dt><dd data-i18n="help.k.tab">Pencere içi odak</dd>
+    </dl>
+  </div>
+  <div class="actions"><button class="btn" id="helpTour" data-i18n="help.tour">Tanıtım turunu başlat</button><button class="btn primary" data-close data-i18n="ok">Tamam</button></div>
+</div></div>
+<div class="toasts" id="toasts" aria-live="polite"></div>
+
+<!-- Hesap ekle -->
+<div class="sheet-bg" id="addSheet"><div class="sheet" role="dialog" aria-modal="true" aria-labelledby="addTitle">
+  <h3 id="addTitle" data-i18n="add.title">Hesap ekle</h3>
+  <div class="lead" data-i18n="add.lead">Ekledikten sonra bir kere giriş yapman yeterli.</div>
+  <div class="field"><span data-i18n="add.type">Tür</span><div class="types" id="typePick"></div><div class="hint" id="typeHint"></div><div id="typeWarn"></div></div>
+  <div class="field"><label for="newName" data-i18n="add.name">İsim</label><input type="text" id="newName"></div>
+  <label class="switch-row"><span class="grow" data-i18n="add.useDefault">Bu Mac'teki mevcut girişi kullan</span><input type="checkbox" class="switch" id="newDefault"></label>
+  <div class="hint" id="newDefaultHint" style="margin-top:-2px"></div>
+  <div class="err" id="acctErr" role="alert"></div>
+  <div class="actions"><button class="btn" data-close data-i18n="cancel">Vazgeç</button><button class="btn primary" id="addBtn" data-i18n="add.btn">Ekle</button></div>
+</div></div>
+
+<!-- Genel ayarlar -->
+<div class="sheet-bg" id="setSheet"><div class="sheet" role="dialog" aria-modal="true" aria-labelledby="setTitle">
+  <h3 id="setTitle" data-i18n="set.title">Ayarlar</h3>
+  <div class="lead" data-i18n="set.lead">Ekip ve çalışma ayarları (bütün projeler için).</div>
+  <div class="field"><span data-i18n="set.look">Görünüm</span><div class="theme-pick" id="themeSeg">
+      <button data-v="nova"><i class="sw" style="--a:#080a0e;--b:#38bdf8;--c:#0e1117"></i>Nova</button>
+      <button data-v="control"><i class="sw" style="--a:#07090c;--b:#ffb020;--c:#34d58a"></i>Kontrol Odası</button>
+      <button data-v="studio"><i class="sw" style="--a:#e5e3dd;--b:#ff4f00;--c:#161513"></i>Stüdyo</button>
+      <button data-v="classic"><i class="sw" style="--a:#1c1c1f;--b:#7d7aff;--c:#f4a27e"></i>Klasik</button>
+      <button data-v="minimal"><i class="sw" style="--a:#fcfcfc;--b:#4353c9;--c:#ececf0"></i>Sade</button>
+      <button data-v="terminal"><i class="sw" style="--a:#0b0b0b;--b:#e8e8e8;--c:#4ade80"></i>Terminal</button>
+      <button data-v="paper"><i class="sw" style="--a:#f5f1ea;--b:#b4441b;--c:#2a251f"></i>Kâğıt</button>
+      <button data-v="airy"><i class="sw" style="--a:#faf8f5;--b:#0d766b;--c:#d8edea"></i>Ferah</button>
+      <button data-v="crisp"><i class="sw" style="--a:#f6f8fa;--b:#0969da;--c:#0f172a"></i>Keskin</button>
+    </div><div class="hint" data-i18n="set.lookHint">Bu bilgisayarda saklanır. Kontrol Odası her zaman koyu; diğerleri Mac'in açık/koyu ayarını izler.</div></div>
+  <div class="field"><span data-i18n="lang.label">Dil</span><div class="seg" id="langSeg" role="radiogroup" aria-label="Dil" data-i18n-aria="lang.label"><button data-v="tr" role="radio" lang="tr">Türkçe</button><button data-v="en" role="radio" lang="en">English</button></div><div class="hint" data-i18n="lang.hint">Bu bilgisayarda saklanır. Değişince sayfa yenilenmeden uygulanır.</div></div>
+  <div class="field"><span data-i18n="set.team">Ekip</span><div class="team-pick" id="workers"></div><div class="hint" data-i18n="set.teamHint">Yöneticiyi değiştirmek için bir hesabın menüsünden "Yönetici yap"ı seç.</div></div>
+  <div class="field"><span data-i18n="set.perm">Yetki</span><div class="seg" id="permSeg"><button data-v="full" data-i18n="set.permFull">Tam yetki</button><button data-v="safe" data-i18n="set.permSafe">Güvenli</button></div><div class="hint" id="permHint"></div></div>
+  <div class="row2">
+    <div class="field"><label for="maxRounds" data-i18n="set.rounds">En fazla tur</label><input type="number" id="maxRounds" min="1" max="10"></div>
+    <div class="field"><label for="timeoutMin" data-i18n="set.timeout">Görev süresi (dk)</label><input type="number" id="timeoutMin" min="1" max="600"></div>
+  </div>
+  <div class="field"><label for="mgrRules" data-i18n="set.rules">Yönetici kuralları</label>
+    <textarea id="mgrRules" placeholder="Her işte yöneticiye ve işçilere iletilir (bütün projeler). Ör: Raporları Türkçe yaz, testler geçmeden bitirme…" data-i18n-placeholder="set.rulesPh"></textarea>
+    <div class="rule-chips" id="ruleChips"></div>
+    <div class="hint" data-i18n="set.rulesHint">Hazır kurala tıklayınca eklenir. Projeye özel notlar için proje ayarlarını kullan.</div></div>
+  <label class="switch-row"><span class="grow"><span data-i18n="set.wait">Herkes limitteyse bekle ve devam et</span><div class="hint" style="margin:0" data-i18n="set.waitHint">Limit açılınca iş kaldığı yerden sürer.</div></span><input type="checkbox" class="switch" id="waitForLimits"></label>
+  <label class="switch-row"><span class="grow"><span data-i18n="set.mgrWorks">Yönetici de iş alsın</span><div class="hint" style="margin:0" data-i18n="set.mgrWorksHint">Açıkken yönetici planlamanın yanında kendine de görev verebilir. Kendi limitini de harcar.</div></span><input type="checkbox" class="switch" id="managerWorks"></label>
+  <label class="switch-row"><span class="grow" data-i18n="set.notify">İş bitince Mac bildirimi gönder</span><input type="checkbox" class="switch" id="notify"></label>
+  <label class="switch-row"><span class="grow"><span data-i18n="set.notifySound">Bildirim sesi</span><div class="hint" style="margin:0" data-i18n="set.notifySoundHint">Kapalıyken bildirimler sessiz gelir.</div></span><input type="checkbox" class="switch" id="notifySound"></label>
+  <div class="field"><span data-i18n="set.restart">Panel</span>
+    <div class="inline-row"><button class="btn" id="restartBtn" data-i18n="app.restart">Paneli yeniden başlat</button></div>
+    <div class="hint" id="restartHint" data-i18n="set.restartHint">Kodu güncelledikten sonra kullan. Çalışan iş varsa bitmesini bekler.</div></div>
+  <div class="actions"><button class="btn primary" data-close data-i18n="ok">Tamam</button></div>
+</div></div>
+
+<!-- Proje ayarlari -->
+<div class="sheet-bg" id="projSheet"><div class="sheet" role="dialog" aria-modal="true" aria-labelledby="projSheetTitle">
+  <h3 id="projSheetTitle" data-i18n="ps.title">Proje</h3>
+  <div class="lead" data-i18n="ps.lead">Her projenin kendi klasörü, notu ve bitiş adımı olur.</div>
+  <div class="field"><label for="pName" data-i18n="ps.name">İsim</label><input type="text" id="pName"></div>
+  <div class="field"><label for="pDir" data-i18n="ps.dir">Klasör</label><div class="inline-row"><input type="text" id="pDir" placeholder="~/projeler/uygulamam" data-i18n-placeholder="ps.dirPh"><button class="btn" id="pPick" data-i18n="ps.pick">Seç…</button></div><label class="check" style="display:flex;gap:8px;align-items:center;margin-top:6px"><input type="checkbox" id="pCloud"><span data-i18n="pr.cloud">Klasörsüz çalış (bulut)</span></label><div class="hint" id="pDirInfo"></div><div class="scanbox" id="pScan"></div></div>
+  <div class="field"><label for="pNotes" data-i18n="ps.notes">Proje notu</label><textarea id="pNotes" placeholder="Her işte yöneticiye ve işçilere iletilir. Ör: kod stili, test komutu, dikkat edilecekler, okunacak doküman adresi…" data-i18n-placeholder="ps.notesPh"></textarea></div>
+  <div class="field wk"><span><span data-i18n="ps.wk">Çalışma kopyası</span> <button class="linkbtn" id="wkFill" type="button" style="float:right;font-weight:500;text-transform:none;letter-spacing:0" data-i18n="ps.wkFill">Önerileri doldur</button></span>
+    <div class="hint" style="margin:0 0 8px" data-i18n="ps.wkHint">Her işçi projenin ayrı bir kopyasında çalışır. Kopyada git'te olmayan dosyalar (.env, node_modules) bulunmaz; burada hazırlarsın.</div>
+    <div class="row2">
+      <div><label class="mini" for="pSetup" data-i18n="ps.setup">Hazırlık komutu</label><input type="text" id="pSetup" placeholder="ör. npm install" data-i18n-placeholder="ps.setupPh"></div>
+      <div><label class="mini" for="pCopy" data-i18n="ps.copy">Kopyalanacak dosyalar</label><input type="text" id="pCopy" placeholder="ör. .env, .env.local" data-i18n-placeholder="ps.copyPh"></div>
+    </div>
+    <label class="switch-row" style="margin-top:6px"><span class="grow"><span data-i18n="ps.autoCheck">Her görevden sonra otomatik doğrula</span><div class="hint" style="margin:0" data-i18n="ps.autoCheckHint">Görev bitince bu komut kopyada çalışır; sonuç görev kartında ve yöneticinin raporunda görünür.</div></span><input type="checkbox" class="switch" id="pAutoCheck"></label>
+    <input type="text" id="pCheck" placeholder="Doğrulama komutu, ör. npm test" aria-label="Doğrulama komutu" data-i18n-placeholder="ps.checkPh" data-i18n-aria="ps.checkAria">
+  </div>
+  <div class="field"><span data-i18n="ps.finish">Bitiş adımı</span>
+    <div class="seg" id="finSeg"><button data-v="none" data-i18n="ps.finNone">Yok</button><button data-v="merge" data-i18n="ps.finMerge">En iyisini ana dala al</button><button data-v="custom" data-i18n="ps.finCustom">Özel talimat</button></div>
+    <div class="hint" id="finHint"></div>
+    <textarea id="finText" style="margin-top:8px;display:none" placeholder="Ör: Testleri çalıştır, geçerse PR aç." data-i18n-placeholder="ps.finPh"></textarea>
+  </div>
+  <div class="actions"><button class="btn" data-close data-i18n="cancel">Vazgeç</button><button class="btn primary" id="pSave" data-i18n="save">Kaydet</button></div>
+</div></div>
+
+<!-- Fark -->
+<div class="sheet-bg" id="diffSheet"><div class="sheet wide" role="dialog" aria-modal="true" aria-labelledby="dTitle">
+  <h3 id="dTitle" data-i18n="diff.title">Değişiklikler</h3>
+  <div class="lead" id="dSub"></div>
+  <div class="diff" id="dBody"></div>
+  <div class="actions"><button class="btn" data-close data-i18n="close">Kapat</button><button class="btn primary" id="dMerge" data-i18n="task.merge">Ana dala al</button></div>
+</div></div>
+
+<!-- Terminal bilgisi -->
+<div class="sheet-bg" id="termSheet"><div class="sheet" role="dialog" aria-modal="true" aria-labelledby="tTitle">
+  <h3 id="tTitle"></h3>
+  <div class="lead" id="tText"></div>
+  <pre id="tCmd" style="user-select:all"></pre>
+  <div class="actions"><button class="btn" id="tCopy" data-i18n="copy">Kopyala</button><button class="btn primary" data-close data-i18n="ok">Tamam</button></div>
+</div></div>
+
+<!-- Genel diyalog (onay / metin girisi / secim) -->
+<div class="sheet-bg" id="dlgSheet"><div class="sheet" role="dialog" aria-modal="true" aria-labelledby="dlgTitle">
+  <h3 id="dlgTitle"></h3>
+  <div class="lead" id="dlgText"></div>
+  <div class="field" id="dlgPickWrap"><label for="dlgPick" id="dlgPickLabel"></label><select id="dlgPick"></select></div>
+  <div class="field" id="dlgField"><input type="text" id="dlgInput" aria-labelledby="dlgTitle" aria-describedby="dlgText"><textarea id="dlgArea" aria-labelledby="dlgTitle" aria-describedby="dlgText"></textarea></div>
+  <div class="actions"><button class="btn" id="dlgCancel" data-i18n="dlg.cancel">Vazgeç</button><button class="btn primary" id="dlgOk" data-i18n="dlg.ok">Tamam</button></div>
+</div></div>
+
+<!-- Istatistik -->
+<div class="sheet-bg" id="statSheet"><div class="sheet stat" role="dialog" aria-modal="true" aria-labelledby="statTitle">
+  <div class="lib-head">
+    <div><h3 id="statTitle" data-i18n="stat.title">İstatistik</h3><div class="lead" style="margin:0" data-i18n="stat.lead">İşlerin, hesapların ve projelerin özeti. Hesap kullanımı son 7 günü kapsar.</div></div>
+    <button class="icon-btn" data-close aria-label="Kapat" data-i18n-aria="close"><svg class="i" viewBox="0 0 16 16"><path d="M4 4l8 8M12 4l-8 8"/></svg></button>
+  </div>
+  <div class="st-filters">
+    <div class="seg" id="statRange"><button data-v="7" data-i18n="stat.d7">7 gün</button><button data-v="30" data-i18n="stat.d30">30 gün</button><button data-v="0" data-i18n="stat.all">Tümü</button></div>
+    <select id="statProj" aria-label="Proje" data-i18n-aria="stat.projAria"></select>
+  </div>
+  <div class="st-body" id="statBody"></div>
+</div></div>
+<div class="vz-tip" id="vzTip" role="tooltip"></div>
+
+<!-- Zamanlanmis gorevler -->
+<div class="sheet-bg" id="schedSheet"><div class="sheet" role="dialog" aria-modal="true" aria-labelledby="schedTitle" style="max-width:560px">
+  <h3 id="schedTitle">Zamanlanmış görevler</h3>
+  <div class="lead" id="schedLead" data-i18n="sched.lead">Belirlediğin saatte yöneticiye otomatik iş verilir. Panel açık olmalı; Mac uykudaysa uyanınca 3 saate kadar telafi eder.</div>
+  <div class="sched-list" id="schedList"></div>
+  <div class="sched-form">
+    <div class="field"><span data-i18n="sched.presets">Hazır</span><div class="rule-chips" id="schedPresets"></div></div>
+    <div class="field"><label for="schedText" data-i18n="sched.task">Görev</label><textarea id="schedText" placeholder="Ör: Testleri çalıştır, kırılan varsa düzelt ve raporla." data-i18n-placeholder="sched.taskPh"></textarea></div>
+    <div class="row2">
+      <div class="field"><label for="schedTime" data-i18n="sched.time">Saat</label><input type="text" id="schedTime" placeholder="02:00" maxlength="5" inputmode="numeric"></div>
+      <div class="field"><span data-i18n="sched.mode">Mod</span><div class="seg" id="schedMode"><button data-v="split" class="on" data-i18n="comp.split">Böl</button><button data-v="race" data-i18n="comp.race">Yarıştır</button></div></div>
+    </div>
+    <div class="field"><span><span data-i18n="sched.days">Günler</span> <small class="hint" style="display:inline" data-i18n="sched.daysHint">(hiçbiri seçilmezse her gün)</small></span><div class="day-pick" id="schedDays"></div></div>
+  </div>
+  <div class="actions"><button class="btn" data-close data-i18n="close">Kapat</button><button class="btn primary" id="schedAdd" data-i18n="sched.add">Zamanla</button></div>
+</div></div>
+
+<!-- Prompt kutuphanesi -->
+<div class="sheet-bg" id="libSheet"><div class="sheet lib" role="dialog" aria-modal="true" aria-labelledby="libTitle">
+  <div class="lib-head">
+    <div><h3 id="libTitle" data-i18n="lib.title">Hazır promptlar</h3><div class="lead" style="margin:0" data-i18n-html="lib.lead.h">Birini seç, <code>[köşeli]</code> yerleri doldur, gönder.</div></div>
+    <button class="icon-btn" data-close aria-label="Kapat" data-i18n-aria="close"><svg class="i" viewBox="0 0 16 16"><path d="M4 4l8 8M12 4l-8 8"/></svg></button>
+  </div>
+  <div class="lib-search"><svg class="i" viewBox="0 0 16 16"><circle cx="7" cy="7" r="4.5"/><path d="M10.5 10.5L14 14"/></svg><input type="text" id="libQ" placeholder="Ara: test, güvenlik, tasarım…" autocomplete="off" aria-label="Prompt ara" data-i18n-placeholder="lib.search" data-i18n-aria="lib.searchAria"></div>
+  <div class="lib-body">
+    <nav class="lib-cats" id="libCats" aria-label="Kategoriler" data-i18n-aria="lib.cats"></nav>
+    <div class="lib-grid" id="libGrid"></div>
+  </div>
+  <div class="lib-foot"><span class="hint" style="margin:0" id="libFootHint"></span><button class="btn" id="libSave" data-i18n="lib.saveBtn">Yazdığımı kaydet</button></div>
+</div></div>
+
+<!-- Komut paleti -->
+<div class="sheet-bg" id="palSheet"><div class="sheet palette" role="dialog" aria-modal="true" aria-label="Komut paleti" data-i18n-aria="tb.palette">
+  <input type="text" id="palInput" role="combobox" aria-expanded="true" aria-controls="palItems" aria-autocomplete="list" placeholder="Komut, proje ya da şablon ara…" autocomplete="off" aria-label="Ara" data-i18n-placeholder="pal.ph" data-i18n-aria="pal.aria">
+  <div class="items" id="palItems" role="listbox"></div>
+</div></div>
+
+<script src="/prompts.js"></script>
+<script src="/app.js"></script>
+</body>
+</html>
